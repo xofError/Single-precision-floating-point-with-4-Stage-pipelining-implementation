@@ -32,9 +32,6 @@ This project implements a **single-precision floating-point addition and subtrac
 
 ---
 
-## 📂 Project Structure
-
-
 ---
 
 ## 🧪 Test Cases
@@ -60,8 +57,9 @@ The testbench (`tb_PipelinedFAdd.v`) includes the following test cases:
 
 1. **Compile the Verilog files**:
    ```bash
+   chmod +x
    ./run.sh
-
+   #you can uncomment the gtkwave section in run.sh to get a waveform
 
 
 ### Key Improvements:
