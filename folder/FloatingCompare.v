@@ -9,6 +9,7 @@ module Stage1_Compare (
   input  wire         operation,   // 0→add, 1→subtract
 
   output reg          A_sign,
+  output reg          B_sign,
   output reg          B_sign_eff,  // <-- effective B sign
   output reg  [7:0]   A_exp,
   output reg  [7:0]   B_exp,
@@ -21,9 +22,11 @@ module Stage1_Compare (
     if (rst) begin
       {A_sign,B_sign_eff,A_exp,B_exp,A_man,B_man,exp_diff,A_bigger} <= 0;
     end else begin
+      
       // raw extraction
       A_sign <= A[31];
-      B_sign_eff <= B_sign ^ 1'b1;  // A - B = A + (-B)
+      B_sign <= B[31];
+      B_sign_eff <= B_sign ^ operation;  // A - B = A + (-B)
 ;   // <-- XOR in the operation bit
       A_exp  <= A[30:23];
       B_exp  <= B[30:23];

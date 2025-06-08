@@ -22,16 +22,16 @@ module Stage3_Adder (
     end else begin
       if (same_sign) begin
         // Perform addition
-        temp_result = A_man_aligned + B_man_aligned;
-        sum_sign = A_sign;  // Both signs are the same
+        temp_result <= A_man_aligned + B_man_aligned;
+        sum_sign <= A_sign;  // Both signs are the same
       end else begin
         // Perform subtraction: larger - smaller
         if (A_man_aligned >= B_man_aligned) begin
-          temp_result = A_man_aligned - B_man_aligned;
-          sum_sign = A_sign;  // A is larger → A's sign
+          temp_result <= A_man_aligned - B_man_aligned;
+          sum_sign <= A_sign;  // A is larger → A's sign
         end else begin
-          temp_result = B_man_aligned - A_man_aligned;
-          sum_sign = B_sign_eff;  // B is larger → B's sign
+          temp_result <= B_man_aligned - A_man_aligned;
+          sum_sign <= B_sign_eff;  // B is larger → B's sign
         end
       end
 
@@ -39,4 +39,5 @@ module Stage3_Adder (
     end
   end
 endmodule
+
 
