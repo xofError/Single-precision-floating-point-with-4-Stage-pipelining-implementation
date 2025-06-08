@@ -22,7 +22,11 @@ module tb_PipelinedFAdd();
     always #5 clk = ~clk;
 
         initial begin
+
             $monitor("Time: %0t | A: %h | B: %h | Op: %b | Result: %h", $time, A, B, operation, result);
+            $dumpfile("build/waveform.vcd");
+            $dumpvars(0, tb_PipelinedFAdd);
+            
 
         #10 reset = 0;
 
@@ -32,12 +36,23 @@ module tb_PipelinedFAdd();
         operation = 0;
         #50;
 
-        // Test 1: 13.65 - 10.2555 = 3.3945
+        // Test 2: 13.65 - 10.2555 = 3.3945
         A = 32'h415a6666; // 13.65
         B = 32'h41241687; // 10.2555
         operation = 1;
         #50;
+        // Test 3: -13.65 + 10.2555 = -3.3945
+        A = 32'hc15a6666; // -13.65
+        B = 32'h41241687; // 10.2555
+        operation = 0;
+        #50;
+        // Test 4: -13.65 - 10.2555 = -23.9055
+        A = 32'hc15a6666; // -13.65
+        B = 32'h41241687; // 10.2555
+        operation = 1;
+        #50;
 
+        
         $finish;
     end
 
