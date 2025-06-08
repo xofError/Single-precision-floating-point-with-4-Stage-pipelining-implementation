@@ -26,8 +26,7 @@ module Stage1_Compare (
       // raw extraction
       A_sign <= A[31];
       B_sign <= B[31];
-      B_sign_eff <= B_sign ^ operation;  // A - B = A + (-B)
-;   // <-- XOR in the operation bit
+      B_sign_eff <= B_sign ^ operation; // <-- XOR in the operation bit
       A_exp  <= A[30:23];
       B_exp  <= B[30:23];
       // build mantissas

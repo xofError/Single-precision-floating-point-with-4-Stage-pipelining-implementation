@@ -13,7 +13,7 @@ module Stage3_Adder (
   output reg         sum_sign
 );
   wire same_sign = (A_sign == B_sign_eff);
-  reg  [24:0] temp_result;
+  reg  [24:0] temp_result; // Bit 24 is an overflow bit (set if the addition produced a carry out of the 24-bit mantissa).
 
   always @(posedge clk or posedge rst) begin
     if (rst) begin

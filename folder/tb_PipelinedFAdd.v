@@ -52,7 +52,6 @@ module tb_PipelinedFAdd();
         operation = 1;
         #50;
 
-        
         $finish;
     end
 
