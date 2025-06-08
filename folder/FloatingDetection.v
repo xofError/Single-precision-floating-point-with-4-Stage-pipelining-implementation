@@ -83,7 +83,7 @@ module Stage1_5_SpecialCase (
         bypass       <= 1'b1;
         // A==0, B==0 → result signed-zero (sign = op? sign_A^1 : sign_A)
         if (A_zero && B_zero) begin
-          bypass_result <= { (operation ? sign_A^1 : sign_A), 8'd0, 23'd0 };
+          bypass_result <= { (operation ? sign_A ^ 1 : sign_A), 8'd0, 23'd0 };
         end
         // one of them is zero → just return the other
         else if (A_zero) begin
