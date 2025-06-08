@@ -1,12 +1,74 @@
-### An implementation of a Single precision floating point Add/Sub operation with 4-Stage pipelining 
+# Single-Precision Floating Point Add/Sub Operation with 4-Stage Pipelining
 
-### Stage 1 : Comparing the floating points and extraction of sign , exponent and mantisa's <br>
+This project implements a **single-precision floating-point addition and subtraction** operation based on the IEEE 754 standard. The design uses a **4-stage pipelined architecture** for efficient computation.
 
-### Stage 2 : Alligning the mantisa's by right shift and incrementing the smaller exponent till it reaches the bigger one<br>
+---
 
-### Stage 3 : Adding the mantisa's<br>
+## 🚀 Features
+- **IEEE 754 Compliance**: Handles normalized and denormalized numbers.
+- **4-Stage Pipelining**: Optimized for high-speed operations.
+- **Addition and Subtraction**: Supports both operations with proper sign handling.
+- **Testbench Included**: Simulates various test cases for verification.
 
-### Stage 4 : Normalization of the sum result based on IEEE 754 Floating point<br>
+---
 
-A website to check the results <br>
-https://www.h-schmidt.net/FloatConverter/IEEE754.html
+## 🛠️ Pipeline Stages
+
+### 1️⃣ **Stage 1: Comparison and Extraction**
+- Extracts the **sign**, **exponent**, and **mantissa** from the input floating-point numbers.
+- Computes the **exponent difference** and determines the larger number.
+
+### 2️⃣ **Stage 2: Mantissa Alignment**
+- Aligns the mantissas by **right-shifting** the smaller mantissa.
+- Adjusts the smaller exponent to match the larger one.
+
+### 3️⃣ **Stage 3: Mantissa Addition/Subtraction**
+- Adds or subtracts the aligned mantissas based on the signs of the inputs.
+- Handles overflow and underflow during the operation.
+
+### 4️⃣ **Stage 4: Normalization**
+- Normalizes the result to ensure compliance with the IEEE 754 format.
+- Adjusts the exponent and mantissa to represent the result correctly.
+
+---
+
+## 📂 Project Structure
+
+
+---
+
+## 🧪 Test Cases
+
+The testbench (`tb_PipelinedFAdd.v`) includes the following test cases:
+
+| **Test** | **Input A** | **Input B** | **Operation** | **Expected Result** |
+|----------|-------------|-------------|---------------|----------------------|
+| Test 1   | 13.65       | 10.2555     | Add (`+`)     | 23.9055             |
+| Test 2   | 13.65       | 10.2555     | Sub (`-`)     | 3.3945              |
+| Test 3   | -13.65      | 10.2555     | Add (`+`)     | -3.3945             |
+| Test 4   | -13.65      | 10.2555     | Sub (`-`)     | -23.9055            |
+
+---
+
+## 🔗 Useful Resources
+
+- [IEEE 754 Floating Point Converter](https://www.h-schmidt.net/FloatConverter/IEEE754.html)
+
+---
+
+## 📜 How to Run
+
+1. **Compile the Verilog files**:
+   ```bash
+   ./run.sh
+
+
+
+### Key Improvements:
+
+2. **Features Section**: Highlighted the key features of the project.
+3. **Pipeline Stages**: Clearly explained each stage with numbered headers.
+4. **Test Cases Table**: Organized test cases in a table for clarity.
+5. **How to Run**: Added step-by-step instructions for running the project.
+6. **References**: Included links to relevant resources for further reading.
+
