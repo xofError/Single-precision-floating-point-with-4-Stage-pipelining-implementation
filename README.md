@@ -8,3 +8,5 @@
 
 ### Stage 4 : Normalization of the sum result based on IEEE 754 Floating point<br>
 
+A website to check the results <br>
+https://www.h-schmidt.net/FloatConverter/IEEE754.html
