@@ -29,6 +29,34 @@ module PipelinedFAdd (
     .A_bigger(A_bigger1)
     );
 
+// Stage 1.5
+Stage1_5_SpecialCase U1_5 (
+  .clk(clk),
+  .rst(rst),
+  .sign_A(sign_A1),
+  .sign_B_eff(sign_B1),
+  .exp_A(exp_A1),
+  .exp_B(exp_B1),
+  .man_A(man_A1),
+  .man_B(man_B1),
+  .exp_diff(diff1),
+  .A_is_bigger(A_big1),
+   .operation(operation),
+  .bypass(bypass_1_5),
+  .bypass_result(bypass_res),
+  .sign_A_out(sA2),
+  .sign_B_out(sB2),
+  .exp_A_out(eA2),
+  .exp_B_out(eB2),
+  .man_A_out(mA2),
+  .man_B_out(mB2),
+  .exp_diff_out(diff2),
+  .A_is_bigger_out(A_big2)
+);
+
+// Then if bypass_1_5, feed bypass_res straight to final
+// else feed the “_out” signals into Stage 2_Align…
+
   // Stage 2
   wire [23:0] A_man2, B_man2;
   wire [7:0]  exp2;
