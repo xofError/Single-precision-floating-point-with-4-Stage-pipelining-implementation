@@ -23,11 +23,12 @@ module Stage1_Compare (
     end else begin
       // raw extraction
       A_sign <= A[31];
-      B_sign_eff <= B[31] ^ operation;   // <-- XOR in the operation bit
+      B_sign_eff <= B_sign ^ 1'b1;  // A - B = A + (-B)
+;   // <-- XOR in the operation bit
       A_exp  <= A[30:23];
       B_exp  <= B[30:23];
       // build mantissas
-      A_man  <= (A[30:23]==0) ? {1'b0, A[22:0]} : {1'b1, A[22:0]};
+      A_man  <= (A[30:23]==0) ? {1'b0, A[22:0]} : {1'b1, A[22:0]}; //implicit leading 1 for normalized , 0 for denormalized
       B_man  <= (B[30:23]==0) ? {1'b0, B[22:0]} : {1'b1, B[22:0]};
       // exponent diff and bigger flag
       if (A[30:23] >= B[30:23]) begin

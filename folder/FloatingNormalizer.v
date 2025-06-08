@@ -8,23 +8,25 @@ module Stage4_Normalize (
   output reg  [31:0] result
 );
   // leading-zero count
-  function [4:0] lzc(input [23:0] v);
+
+  
+  reg [7:0]  exp_adj;
+  reg [23:0] norm_man;
+  reg [4:0]  shift;
+
+  function integer leading_zeros;
+    input [23:0] val;
     integer i;
     begin
-      lzc = 0;
-      for (i=23; i>=0; i=i-1) begin
-        if (v[i]) begin
-          lzc = lzc;
-        end else begin
-          lzc = lzc + 1;
+      leading_zeros = 0;
+      for (i = 23; i >= 0; i = i - 1) begin
+        if (val[i] == 1'b1) begin
+          leading_zeros = 23 - i;
+          i = -1; // exit loop manually
         end
       end
     end
   endfunction
-
-  reg [7:0]  exp_adj;
-  reg [23:0] norm_man;
-  reg [4:0]  shift;
 
   always @(posedge clk or posedge rst) begin
     if (rst) begin
@@ -35,7 +37,7 @@ module Stage4_Normalize (
         exp_adj   = exp_in + 1;
         norm_man  = sum_man[24:1];
       end else begin
-        shift     = lzc(sum_man[23:0]);
+        shift     = leading_zeros(sum_man[23:0]);
         exp_adj   = exp_in - shift;
         norm_man  = sum_man[23:0] << shift;
       end

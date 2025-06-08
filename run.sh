@@ -23,8 +23,8 @@ for tb in "${TESTBENCHES[@]}"; do
     vvp build/${tb_name}.out
     
     # Check if waveform file exists and open it in GTKWave
-    if [ -f build/waveform.vcd ]; then
-        echo "Opening waveform for $tb_name in GTKWave..."
-        gtkwave build/waveform.vcd &
-    fi
+    # if [ -f build/waveform.vcd ]; then
+    #     echo "Opening waveform for $tb_name in GTKWave..."
+    #     gtkwave build/waveform.vcd &
+    # fi
 done
