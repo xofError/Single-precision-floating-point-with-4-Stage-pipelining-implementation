@@ -18,13 +18,49 @@ This project implements a **single-precision floating-point addition and subtrac
 - Extracts the **sign**, **exponent**, and **mantissa** from the input floating-point numbers.
 - Computes the **exponent difference** and determines the larger number.
 
+---
+
+### 1.5️⃣ **Stage 1.5: Special Case Handling**
+- **Purpose**: Handles special cases like NaN, infinity, and zero to ensure compliance with the IEEE 754 standard.
+- **Implemented in**: [`FloatingDetection.v`](folder/FloatingDetection.v)
+- **Key Features**:
+  - **NaN Handling**:
+    - If either input is NaN, the result is a **quiet NaN**.
+    - The payload (mantissa) of the first NaN encountered is propagated.
+  - **Infinity Handling**:
+    - **∞ + ∞** (same signs): Result is `+∞` or `-∞` depending on the sign.
+    - **∞ - ∞** (different signs): Result is **NaN**.
+    - If only one input is infinity, the result is that infinity.
+  - **Zero Handling**:
+    - **0 + 0**: Result is signed zero (`+0` or `-0` depending on the operation).
+    - **0 + X**: Result is the non-zero input.
+  - **Pass-Through**:
+    - If no special case is detected, the inputs are passed to the next stage for further processing.
+
+#### Example Scenarios:
+| **Condition**       | **Inputs**                  | **Result**                     |
+|----------------------|-----------------------------|---------------------------------|
+| NaN                 | A or B is NaN               | Quiet NaN                      |
+| ∞ + ∞ (same signs)  | A = +∞, B = +∞              | +∞                             |
+| ∞ - ∞ (different)   | A = +∞, B = -∞              | Quiet NaN                      |
+| ∞ + X               | A = +∞, B = finite          | +∞                             |
+| 0 + 0               | A = +0, B = -0              | Signed zero (`+0` or `-0`)     |
+| 0 + X               | A = 0, B = finite           | Non-zero input (`B`)           |
+| No special case     | Normal inputs               | Pass to next stage             |
+
+---
+
 ### 2️⃣ **Stage 2: Mantissa Alignment**
 - Aligns the mantissas by **right-shifting** the smaller mantissa.
 - Adjusts the smaller exponent to match the larger one.
 
+---
+
 ### 3️⃣ **Stage 3: Mantissa Addition/Subtraction**
 - Adds or subtracts the aligned mantissas based on the signs of the inputs.
 - Handles overflow and underflow during the operation.
+
+---
 
 ### 4️⃣ **Stage 4: Normalization**
 - Normalizes the result to ensure compliance with the IEEE 754 format.
