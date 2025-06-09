@@ -17,6 +17,7 @@ This project implements a **single-precision floating-point addition and subtrac
 ### 1️⃣ **Stage 1: Comparison and Extraction**
 - Extracts the **sign**, **exponent**, and **mantissa** from the input floating-point numbers.
 - Computes the **exponent difference** and determines the larger number.
+![image](https://github.com/user-attachments/assets/8bc0ac94-0052-475b-86ec-c0ce2a2a0cd8)
 
 ---
 
@@ -68,9 +69,6 @@ This project implements a **single-precision floating-point addition and subtrac
 
 ---
 
-## 📂 Project Structure
-
-
 ---
 
 ## 🧪 Test Cases
@@ -96,8 +94,9 @@ The testbench (`tb_PipelinedFAdd.v`) includes the following test cases:
 
 1. **Compile the Verilog files**:
    ```bash
+   chmod +x
    ./run.sh
-
+   #you can uncomment the gtkwave section in run.sh to get a waveform
 
 
 ### Key Improvements:
