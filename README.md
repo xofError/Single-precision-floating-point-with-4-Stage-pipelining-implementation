@@ -17,6 +17,7 @@ This project implements a **single-precision floating-point addition and subtrac
 ### 1️⃣ **Stage 1: Comparison and Extraction**
 - Extracts the **sign**, **exponent**, and **mantissa** from the input floating-point numbers.
 - Computes the **exponent difference** and determines the larger number.
+![image](https://github.com/user-attachments/assets/8bc0ac94-0052-475b-86ec-c0ce2a2a0cd8)
 
 ### 2️⃣ **Stage 2: Mantissa Alignment**
 - Aligns the mantissas by **right-shifting** the smaller mantissa.
