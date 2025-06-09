@@ -14,7 +14,7 @@ module Stage1_5_SpecialCase (
   input  wire        operation,   // for tie-breaking zeros
 
   // Bypass outputs
-  output reg         bypass,        // ‘1’ if we’re shortcutting
+  output reg         bypass,        // '1' if we're shortcutting
   output reg  [31:0] bypass_result, // final IEEE-754 word
 
   // Otherwise pass through to Stage 2
@@ -29,11 +29,11 @@ module Stage1_5_SpecialCase (
 );
 
   // helper wires
-  wire A_zero = (exp_A == 8'd0    && man_A[22:0] == 0);
-  wire B_zero = (exp_B == 8'd0    && man_B[22:0] == 0);
-  wire A_inf  = (exp_A == 8'hFF   && man_A[22:0] == 0);
+  wire A_zero = (exp_A == 8'd0    && man_A[22:0] == 0); // if the exponent and mantis of A all are zeroes (sign doesn't matter)
+  wire B_zero = (exp_B == 8'd0    && man_B[22:0] == 0); 
+  wire A_inf  = (exp_A == 8'hFF   && man_A[22:0] == 0); // if exponent is all ones and mantis is all zeroes
   wire B_inf  = (exp_B == 8'hFF   && man_B[22:0] == 0);
-  wire A_nan  = (exp_A == 8'hFF   && man_A[22:0] != 0);
+  wire A_nan  = (exp_A == 8'hFF   && man_A[22:0] != 0); // if exponent is all ones and mantis is non-zero's (sign doesn't matter)
   wire B_nan  = (exp_B == 8'hFF   && man_B[22:0] != 0);
 
   always @(posedge clk or posedge rst) begin
@@ -59,23 +59,23 @@ module Stage1_5_SpecialCase (
       if (A_nan || B_nan) begin
         bypass        <= 1'b1;
         // propagate the payload of the first NaN you see
-        bypass_result <= A_nan ? {1'b0, 8'hFF, man_A[22:0]} 
-                               : {1'b0, 8'hFF, man_B[22:0]};
+        bypass_result <= A_nan ? {sign_A, 8'b1, man_A[22:0]} 
+                               : {sign_B_eff, 8'b1, man_B[22:0]};
       end
       // 2) Infinity rules
       else if (A_inf || B_inf) begin
         bypass       <= 1'b1;
         if (A_inf && B_inf) begin
           // ∞ - ∞ = NaN, ∞ + ∞ = sign_A ? -Inf : +Inf
-          if (operation && (sign_A ^ sign_B_eff)) begin
+          if (operation && (sign_A ^ sign_B_eff)) begin // op AND signs difference
             bypass_result <= 32'h7FC00000; // quiet NaN
           end else begin
-            bypass_result <= { sign_A, 8'hFF, 23'd0 };
+            bypass_result <= { sign_A, 8'b1, 23'b0 };
           end
         end else if (A_inf) begin
-          bypass_result <= { sign_A, 8'hFF, 23'd0 };
+          bypass_result <= { sign_A, 8'b1, 23'b0 };
         end else begin
-          bypass_result <= { sign_B_eff, 8'hFF, 23'd0 };
+          bypass_result <= { sign_B_eff, 8'b1, 23'b0 };
         end
       end
       // 3) Zero rules
@@ -83,7 +83,7 @@ module Stage1_5_SpecialCase (
         bypass       <= 1'b1;
         // A==0, B==0 → result signed-zero (sign = op? sign_A^1 : sign_A)
         if (A_zero && B_zero) begin
-          bypass_result <= { (operation ? sign_A ^ 1 : sign_A), 8'd0, 23'd0 };
+          bypass_result <= {(operation ? {sign_A ^ 1'b1} : {sign_A}) , 8'b0, 23'b0 };
         end
         // one of them is zero → just return the other
         else if (A_zero) begin

@@ -52,9 +52,9 @@ module tb_PipelinedFAdd();
         // operation = 1;
         // #50;
 
-        A = 32'h7FC00001;
-        B = 32'h41200000;
-        operation = 0;
+        A = 32'h00000000;
+        B = 32'h80000000;
+        operation = 1;
         #50;
 
         $finish;
