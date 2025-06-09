@@ -5,7 +5,7 @@ VERILOG_DIR="./folder"
 
 # Testbenches to run
 TESTBENCHES=(
-    "tb_PipelinedFAdd.v PipelinedFAdd.v FloatingAdder.v FloatingAllign.v FloatingCompare.v FloatingNormalizer.v"
+    "tb_PipelinedFAdd.v PipelinedFAdd.v FloatingAdder.v FloatingAllign.v FloatingCompare.v FloatingNormalizer.v FloatingDetection.v"
 )
 
 # Create build directory if it doesn't exist
